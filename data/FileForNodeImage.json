@@ -1,0 +1,15 @@
+{
+  "nodes":[
+    {"name":"Myriel","group":0,"year":2001},
+    {"name":"Napoleon","group":2,"year":2002},
+    {"name":"Mlle.Baptistine","group":1,"year":2003},
+    {"name":"Mme.Magloire","group":1,"year":2004},
+    {"name":"CountessdeLo","group":1,"year":2005},
+    {"name":"Geborand","group":5,"year":2006}
+  ],
+  "links":[
+    {"source":1,"target":0},
+    {"source":2,"target":0},
+    {"source":2,"target":1}    
+  ]
+}
