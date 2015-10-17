@@ -1,0 +1,30 @@
+{% extends "base_template.html" %}
+
+{% block title %}GeoPhyZViZ{% endblock %}
+{% block content %}
+
+<script>
+
+  var get_data = function(author){
+
+  $.get('/data', {author: author}, function(data) {
+
+  d3.select('#viz').selectAll('.circle').data(data)
+  .enter().append('circle').attr('cy', 50).attr('r', 5).attr('cx', function(d, i){return i*10 + 10})
+  .append('svg:title').text(function(d){return d.abstract});
+  }
+  )
+  }
+</script>
+
+<div class="container">
+
+  <svg id="viz" width="300" height="300"></svg>
+
+    <button onclick="get_data('Sergey Fomel')" type="button">Sergey Papers</button>
+    
+</div>
+
+
+
+{% endblock %}
