@@ -1,0 +1,239 @@
+2D
+3-C
+3D
+4-C
+4D
+AVO/AVA
+CSEM
+Fourier
+GPR
+GPS
+Gulf of Mexico
+Imaging
+Kirchhoff
+NMO
+North Sea
+OBC
+Q
+Radon
+SRME
+Stoneley wave
+TTI
+VSP
+VTI
+acoustic
+acquisition
+adaptive
+adaptive subtraction
+air gun
+airborne survey
+algorithm
+aliasing
+amplitude
+anisotropy
+apparent resistivity
+aquifer
+archaeology
+arrays
+attenuation
+attributes
+autofocusing
+azimuth
+beam
+borehole geophysics
+broadband
+carbonate
+case history
+coal
+coherency
+common angle
+common conversion point
+common midpoint
+common offset
+common receiver
+common shot
+conductivity
+continuation
+converted wave
+correlation
+crosswell
+crustal structure
+datuming
+decomposition
+deconvolution
+deepwater
+density
+depth migration
+development and production
+diffraction
+dip
+dispersion
+displacement
+distributed systems
+diving wave
+downhole receivers
+downhole sources
+earthquake
+economics
+effective
+elastic
+electrical/resistivity
+electromagnetic
+engineering
+environmental
+estimation
+extrapolation
+faults
+filtering
+finite difference
+finite element
+fluid
+fracture stimulation
+fractures
+frequency-domain
+frequency-domainacoustic
+full-waveform inversion
+gas
+gathers
+geology
+geophones
+geothermal
+gravity
+groundwater
+head waves
+heat flow
+heterogeneous
+high-resolution
+high-velocity layer
+horizontal wells
+hydrates
+hydrology
+hydrophones
+illumination
+imaging
+impedance
+induced polarization
+induced seismicity
+integration
+internal multiples
+interpolation
+interpretation
+inversion
+isotropic
+land
+layered
+least squares
+linear
+lithology
+logging
+low frequency
+magnetic susceptibility
+magnetics
+magnetometer
+magnetotelluric
+mapping
+marine
+media incompressibility
+microseismic
+migration
+mining
+modeling
+monitoring
+moveout
+multiazimuth
+multicomponent
+multiparameter
+multiples
+navigation
+near surface
+neural networks
+noise
+noiseland
+nonlinear
+nuclear
+numerical
+ocean-bottom node
+oceanography
+offset
+one-way
+optimization
+parallel
+parse
+passive
+permafrost
+permeability
+phase
+polarization
+pore pressure
+porosity
+poststack
+prestack
+processing
+production
+programming
+properties
+radial
+radiation
+random
+ray tracing
+reciprocity
+reconstruction
+reflection
+refraction
+remote sensing
+reservoir characterization
+resistivity
+resolution
+resolutions
+reverse time migration
+reverse-time
+rock physics
+salt
+sampling
+saturation
+scattering
+seafloor
+sediment
+seismic
+sensors
+separation
+sequestration
+shale gas
+shallow
+signal processing
+sonic
+sources
+sparse
+spectral
+stacking
+statics
+statistical
+stratigraphy
+subbasalt
+subsalt
+subtraction
+surface wave
+survey design
+tectonics
+tensor
+thermal conductivity
+time migration
+time-domain
+time-lapse
+tomography
+transform
+transmission
+traveltime
+two-dimensional
+ultrasonic
+unconsolidated
+unconventional
+velocity
+vibroseis
+viscoelastic
+visualization
+volcanics
+water
+wave equation
+wave propagation
+wavelet
