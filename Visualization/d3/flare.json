@@ -1,0 +1,27 @@
+{
+ "name": "Papers",
+ "children": [
+  {
+   "name": "Paper 1",
+   "children": [
+      {"name": "Leon"},
+      {"name": "Ben"},
+      {"name": "Colton"},
+      {"name": "Yingwei"},
+      {"name": "Justin"},
+      {"name": "Andy"}
+   ]
+  },
+  {
+   "name": "Paper 2",
+     "children": [
+      {"name": "Leon"},
+      {"name": "Ben"},
+      {"name": "Colton"},
+      {"name": "Yingwei"},
+      {"name": "Justin"},
+      {"name": "Andy"}
+     ]
+  }
+ ]
+}
