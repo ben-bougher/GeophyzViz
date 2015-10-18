@@ -23,6 +23,7 @@ class MainHandler(webapp2.RequestHandler):
         template = env.get_template('index.html')
         html = template.render()
 
+        print html
         self.response.write(html)
 
 
@@ -32,11 +33,16 @@ class DataHandler(webapp2.RequestHandler):
 
         self.response.headers['Content-Type'] = 'application/json'
         
-        author = self.request.get('author')
+        #author = self.request.get('author')
         
-        articles = Article.all().filter("authors =", author).fetch(10000)
+        articles = Article.all().fetch(10)
 
-        self.response.out.write(json.dumps([i.json for i in articles]))
+        authors = []
+        for art in articles:
+            authors += art.authors
+            
+
+        self.response.out.write(json.dumps(authors))
 
         
 class LoadDataHandler(webapp2.RequestHandler):
