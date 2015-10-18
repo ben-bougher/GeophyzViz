@@ -1,0 +1,55 @@
+{
+  "name": "angular-strap",
+  "description": "AngularStrap - AngularJS directives for Bootstrap",
+  "version": "2.3.3",
+  "keywords": [
+    "angular",
+    "bootstrap"
+  ],
+  "main": "dist/angular-strap.js",
+  "homepage": "http://mgcrea.github.io/angular-strap",
+  "bugs": "https://github.com/mgcrea/angular-strap/issues",
+  "author": {
+    "name": "Olivier Louvignes",
+    "email": "olivier@mg-crea.com",
+    "url": "https://github.com/mgcrea"
+  },
+  "contributors": [
+    {
+      "name": "Vitor Fernandes",
+      "url": "https://github.com/vmlf01"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mgcrea/angular-strap.git"
+  },
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "del": "^1.2.1",
+    "factory-angular-channels": "^0.8.2",
+    "gulp": "gulpjs/gulp#4.0",
+    "gulp-jshint": "^1.11.2",
+    "gulp-ng-annotate": "^1.1.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^1.4.1",
+    "gulp-util": "^3.0.6",
+    "jasmine-core": "^2.3.4",
+    "jshint-stylish": "^2.0.1",
+    "karma": "^0.13.9",
+    "karma-chrome-launcher": "^0.2.0",
+    "karma-coverage": "^0.5.1",
+    "karma-jasmine": "^0.3.6",
+    "karma-phantomjs-launcher": "^0.2.1",
+    "karma-sauce-launcher": "^0.2.14",
+    "ng-factory": "^1.0",
+    "undertaker-lib-tasks": "^0.4.0"
+  },
+  "engines": {
+    "node": "^0.10"
+  },
+  "scripts": {
+    "test": "$(npm bin)/gulp jshint karma:unit"
+  }
+}
