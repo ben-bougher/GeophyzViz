@@ -1,4 +1,67 @@
 
+class CitedBy(object):
+    def __init__(self,object):
+        if(len(object[u"authors"]) > 0):        
+            self._authors = object[u"authors"]
+        else:
+            self._authors = []
+        if(len(object[u"journal"]) > 0):
+            self._journal = object[u"journal"]
+        else:
+            self._journal = []
+        if(len(object[u"title"]) > 0):
+            self._title = object[u"title"]
+        else:
+            self._title = []
+        self.clean()
+
+
+    def __str__(self):
+        s = self._title + "\n"
+        for a in self._authors:
+            s += a + ", "
+        s = s[:-2]
+        s += "\n" + self._journal + "\n"
+        return s
+
+    def get_authors(self):
+        return self._authors
+    def get_journal(self):
+        return self._journal
+    def get_title(self):
+        return self._title
+
+    def clean(self): 
+        """take out u' and ' """
+        self._authors = self.clean_authors()
+        self._title = self.clean_title()
+        self._journal = self.clean_journal()
+
+    def clean_authors(self):
+        authors = self._authors
+        cleaned = []
+        for uni in authors:
+            temp = str(uni.encode('ascii', 'replace'))
+            n = len(temp)-1
+            if(temp[n]=='*'):
+                temp = temp[0:n]
+            cleaned.append(temp)
+        return cleaned
+
+    def clean_title(self):
+        title = self._title
+        cleaned = ""
+        for uni in title:
+            cleaned = cleaned + str(uni.encode('ascii','replace'))
+        return cleaned
+
+    def clean_journal(self):
+        title = self._journal
+        cleaned = ""
+        for uni in title:
+            cleaned = cleaned + str(uni.encode('ascii','replace'))
+        return cleaned
+
 class Paper(object):
     def __init__(self, object):
         """ creates object elements"""
@@ -10,11 +73,16 @@ class Paper(object):
         self._title= object[u"title"]
 
         #self._references
-        #self._citedby
+        self._citedby = []
+        if(len(object[u"citedby"]) > 0):
+            for cite in object[u"citedby"]:
+                self._citedby.append(CitedBy(cite))
+        self._year = object[u"year"]
+        self._issue = object[u"issue"]
+        self._volume = object[u"volume"]
 
         self.clean()
         # checks for year
-        
 
     def clean_authors(self):
         authors = self._authors
@@ -64,17 +132,17 @@ class Paper(object):
 
     def clean_issue(self):
         issue = self._issue
-        cleaned = int(issue.encode('ascii','replace'))
+        cleaned = int(issue[0].encode('ascii','replace'))
         return cleaned
 
     def clean_year(self):
         year = self._year
-        cleaned = int(year.encode('ascii','replace'))
+        cleaned = int(year[0].encode('ascii','replace'))
         return cleaned
 
     def clean_volume(self):
         volume = self._volume
-        cleaned = int(volume.encode('ascii','replace'))
+        cleaned = int(volume[0].encode('ascii','replace'))
         return cleaned
 
     def clean(self): 
@@ -85,9 +153,9 @@ class Paper(object):
         self._abstract = self.clean_abstract()
         self._institution = self.clean_institution()
         self._doi = self.clean_doi()
-        #self._issue = self.clean_issue()
-        #self._year = self.clean_year()
-        #self._volume = self.clean_volume()
+        self._issue = self.clean_issue()
+        self._year = self.clean_year()
+        self._volume = self.clean_volume()
         
     def print_paper(self):
         print(self.get_doi())
