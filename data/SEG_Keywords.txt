@@ -199,7 +199,8 @@ particle-velocity sensors
 passive
 permafrost
 permeability
-permanent reservoir monitoring (prm)
+permanent reservoir monitoring
+prm
 phase
 polarization
 pore pressure
@@ -212,7 +213,6 @@ production
 profiling
 programming
 properties
-Q
 radial transform
 radiation
 radiometrics
