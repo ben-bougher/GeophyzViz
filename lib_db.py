@@ -11,6 +11,7 @@ class Article(db.Model):
     volume = db.IntegerProperty()
     year = db.IntegerProperty()
     keywords = db.StringListProperty()
+    kw_prob = db.ListProperty
     issue = db.IntegerProperty()
     
     @property

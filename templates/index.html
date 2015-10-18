@@ -6,14 +6,30 @@
 
 <script src="static/js/wordcloud.js"></script>
 <div class="container">
+  <div class="row">
 
-  <button onclick="get_data()" type="button">Sergey Papers</button>
-  <svg id="viz" width="600" height="1000"></svg>
+    <div class="col-lg-8">
 
- 
+      <button onclick="get_data()" type="button">Sergey Papers</button>
+      <svg id="viz" width="600" height="1000">
+        <g>
+          <image id="test" height="40" width="40" x="0" y="0"
+                 xlink:href="data:image/png;base64,{{image}}">
+        </g>
+        <circle cx="350" cy="300" r="20" fill="blue">
+          
+      </svg>
+
+    </div>
+    <div id="papers" class="col-lg-4">
+      <div class="panel-heading">
+        <h3 class="panel-title">Recommended Reading</h3>
+      </div>
+
+    </div>
     
+  </div>
 </div>
-
 
 
 {% endblock %}
