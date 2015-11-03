@@ -10,12 +10,6 @@ app.config(['$interpolateProvider', function($interpolateProvider) {
 }]);
 
 
-
-app.controller('2DCtrl', function ($scope, $http, $alert, $timeout) {
-  var a = 1;
-});
-
-
 app.controller('controller', function($scope, $http) {
 
   $scope.setDefaults = function(){
