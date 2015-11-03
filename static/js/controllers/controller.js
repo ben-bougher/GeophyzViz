@@ -3,9 +3,10 @@ app.controller('controller', function($scope, $http) {
 
   $scope.setDefaults = function(){
 
+    $scope.dragging = false;
     $scope.r = 200;
-    $scope.cy = 300;
-    $scope.cx = 300;
+    $scope.cy = 200;
+    $scope.cx = 200;
     
     // Init the canvas
     $scope.svg = d3.select("#viz");
@@ -33,6 +34,8 @@ app.controller('controller', function($scope, $http) {
         .text(function(d){
           return d.title;})
         .style('cursor', 'pointer')
+        .on('mouseover', $scope.artMouseOver)
+        .on('mouseout', $scope.artMouseOut)
         .on('click', function(d) { window.open(d.doi); });
       
     });
@@ -72,10 +75,13 @@ app.controller('controller', function($scope, $http) {
             }
         
             return $scope.scale(pos) + 10;})
-          .style('cursor', 'grabbing');
+          .style('cursor', 'grabbing')
+          .on('mouseover', $scope.kwMouseOver)
+          .on('mouseout', $scope.kwMouseOut);
 
     var dragend = function dragend(d,i){
 
+      $scope.dragging = false;
       var item = d3.select(this);
       if((item.attr('x') < $scope.trash_y2) &&
          (item.attr('y') < $scope.trash_x2)){
@@ -109,7 +115,9 @@ app.controller('controller', function($scope, $http) {
     };
 
     var drag = d3.behavior.drag().on('drag', dragmove)
-          .on('dragend', dragend);
+          .on('dragend', dragend)
+          .on('dragstart', function(){
+            $scope.dragging=true;});
 
     text.call(drag);
   };
@@ -124,10 +132,45 @@ app.controller('controller', function($scope, $http) {
       var pap_div = d3.select("#papers");
 
       pap_div.selectAll('p').data($scope.suggestions)
-        .text(function(d){return d.title;})
+        .text(function(d){return d.title;});
     });
   };
-                                       
-  $scope.setDefaults();
 
+  $scope.kwMouseOver = function kwMouseOver(){
+    if($scope.dragging === false){ 
+      var articles = d3.select("#papers").selectAll('p')
+            .style("font-size", function(){
+              var fs = Math.floor(Math.random()*20) + 8;
+              return fs.toString() + 'px';});
+    }
+  };
+
+  $scope.kwMouseOut = function kwMouseOut(){
+    if($scope.dragging === false){ 
+      var articles = d3.select("#papers").selectAll('p')
+            .style("font-size", function(){
+              var fs = 12;
+              return fs.toString() + 'px';});
+    }
+  };
+
+  $scope.artMouseOver = function artMouseOver(){
+
+
+      var kw =  d3.select('#viz').selectAll('text')
+            .style("font-size", function(){
+              var fs = Math.floor(Math.random()*20) + 8;
+              return fs.toString() + 'px';});
+  };
+  
+  $scope.artMouseOut = function artMouseOut(){
+    
+      var kw =  d3.select('#viz').selectAll('text')
+            .style("font-size", function(){
+              var fs = 12;
+              return fs.toString() + 'px';});
+  };
+  
+  $scope.setDefaults();
+  
 });
