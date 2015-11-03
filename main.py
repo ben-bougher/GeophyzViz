@@ -119,12 +119,9 @@ class SuggestionHandler(webapp2.RequestHandler):
         self.response.headers['Content-Type'] = 'application/json'
         articles = Article.all().fetch(10, offset=randint(0, 1000))
 
-        titles = []
+        arts = [a.json for a in articles]
 
-        for article in articles:
-            titles.append(article.title)
-
-        self.response.out.write(json.dumps(titles))
+        self.response.out.write(json.dumps(arts))
 
 
 class DataHandler(webapp2.RequestHandler):
@@ -135,16 +132,16 @@ class DataHandler(webapp2.RequestHandler):
 
         articles = Article.all().fetch(10)
 
-        titles = []
+        arts = []
         kw = []
         for art in articles:
-            titles.append(art.title)
+            arts.append(art.json)
             kw += art.keywords + art.authors
 
         keywords = [kw[i] for i in randint(0, len(kw), 20)]
         keywords = list(set(keywords))
         self.response.out.write(json.dumps({'keys': keywords,
-                                            'suggestions': titles}))
+                                            'suggestions': arts}))
 
 
 class PopulateKeywordsHandler(webapp2.RequestHandler):

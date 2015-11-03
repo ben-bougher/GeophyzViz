@@ -30,7 +30,10 @@ app.controller('controller', function($scope, $http) {
       var pap_div = d3.select("#papers");
 
       pap_div.selectAll('p').data($scope.suggestions).enter().append('p')
-        .text(function(d){return d;});
+        .text(function(d){
+          return d.title;})
+        .style('cursor', 'pointer')
+        .on('click', function(d) { window.open(d.doi); });
       
     });
     
@@ -47,7 +50,7 @@ app.controller('controller', function($scope, $http) {
           .data($scope.keywords).enter()
           .append('text')
           .text(function(d) {return d;})
-          .style("stroke", "black")
+          .attr('class','normaltext')
           .attr('x', function(d, i){
         
             var angle = Math.sin(2*(i / num_words)*Math.PI);
@@ -98,9 +101,10 @@ app.controller('controller', function($scope, $http) {
       if((d3.event.y < $scope.trash_y2) &&
          (d3.event.x < $scope.trash_x2)){
       
-        word.style('stroke', 'red');}
+        word.style('fill', 'red');
+      }
       else{
-        word.style('stroke', 'black');
+        word.style('fill', 'black');
       }
     };
 
@@ -120,7 +124,7 @@ app.controller('controller', function($scope, $http) {
       var pap_div = d3.select("#papers");
 
       pap_div.selectAll('p').data($scope.suggestions)
-        .text(function(d){return d;});
+        .text(function(d){return d.title;})
     });
   };
                                        
