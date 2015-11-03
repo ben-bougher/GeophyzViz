@@ -1,5 +1,5 @@
 'use strict';
-var app = angular.module('geophyzviz', 
+var app = angular.module('viz', 
 	['mgcrea.ngStrap', 
 	'ngAnimate',
 	'angular-flexslider']);

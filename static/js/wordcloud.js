@@ -88,7 +88,8 @@ var get_data = function(){
     var pap_div = d3.select("#papers");
 
     pap_div.selectAll('p').data(titles).enter().append('p')
-      .text(function(d){return d});
+      .text(function(d){return d;});
+
     
   }
        );

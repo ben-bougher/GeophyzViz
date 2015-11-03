@@ -1,5 +1,5 @@
 {
-  "name": "geophyzviz",
+  "name": "viz",
   "version": "1.0.0",
   "description": "Geophysical Publication Vizualization",
   "main": "app.yaml",

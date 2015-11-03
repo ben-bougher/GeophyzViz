@@ -9,41 +9,61 @@ from google.appengine.ext import webapp as webapp2
 from google.appengine.ext.webapp.util import run_wsgi_app
 from jinja2 import Environment, FileSystemLoader
 from os.path import dirname, join
-from lib_db import Article
+from lib_db import Article, Keywords
+
 import json
 from numpy.random import randint
 import numpy as np
 
 
 env = Environment(loader=FileSystemLoader(join(dirname(__file__),
-                                            'templates')))
+                                               'templates')))
 
 
-def GenerateKeywords(curAbstract, curTitle, curKeywords):
-    N_Keywords = len(KeyWords)        
-    kwv = np.zeros(N_Keywords)
-    extractedKW=set()
-    p=-1
+def preprocess(KeywordsQuery, KeyWords):
+    
+    # query preprocessing
+    for k in KeywordsQuery:
+        KeywordsQuery[k.strip().lower()] = KeywordsQuery.pop(k)
+
+    N_Keywords = len(KeyWords)
+    kqv = np.zeros(N_Keywords)
+    KQ = [k for k in KeywordsQuery.keys()]
+    p = 0
+        
     for kw in KeyWords:
-        p+=1
-        if kw in curKeywords: #if the existing keyword is a recognized one
+        if kw in KQ: # if the input keyword is a recognized one
+            kqv[p] = KeywordsQuery[kw]
+        p += 1
+
+    return kqv
+
+
+def GenerateKeywords(curAbstract, curTitle, curKeywords, KeyWords):
+    
+    N_Keywords = len(KeyWords)
+    kwv = np.zeros(N_Keywords)
+    extractedKW = set()
+    p = -1
+    for kw in KeyWords:
+        p += 1
+        if kw in curKeywords: # if the existing keyword is a recognized one
             extractedKW.add(kw)
-            kwv[p]=1.0
+            kwv[p] = 1.0
             continue
         if kw in curAbstract.lower() and kw in curTitle.lower():
             extractedKW.add(kw)
-            kwv[p]=0.9
+            kwv[p] = 0.9
             continue
         if kw in curAbstract.lower():
             extractedKW.add(kw)
-            kwv[p]=0.5
+            kwv[p] = 0.5
             continue
         if kw in curTitle.lower():
             extractedKW.add(kw)
-            kwv[p]=0.8
+            kwv[p] = 0.8
             continue
     return extractedKW, kwv
-
 
 
 def LoadKeywordsFromFile(infile, kw=None):
@@ -51,19 +71,30 @@ def LoadKeywordsFromFile(infile, kw=None):
         KeyWords = set()
     else:
         KeyWords = kw
-    
-    f = open(infile,'r')
+
+    f = open(infile, 'r')
     cnt = 0
     for line in f:
-        if len(line)<2:
+        if len(line) < 2:
             continue
         curKeyword = line
-        if line[-1]=='\n':
+        if line[-1] == '\n':
             curKeyword = line[:-1]
         KeyWords.add(curKeyword.strip().lower())
-        cnt+=1
+        cnt += 1
 
     return KeyWords
+
+
+class IndexHandler(webapp2.RequestHandler):
+
+    def get(self):
+
+        template = env.get_template('breakfast.html')
+        
+        html = template.render()
+
+        self.response.write(html)
 
 
 class MainHandler(webapp2.RequestHandler):
@@ -101,44 +132,56 @@ class DataHandler(webapp2.RequestHandler):
     def get(self):
 
         self.response.headers['Content-Type'] = 'application/json'
-        
-        #author = self.request.get('author')
-        
+
         articles = Article.all().fetch(10)
 
-        authors = []
         titles = []
-        
+        kw = []
         for art in articles:
-            authors += art.authors
             titles.append(art.title)
-            
-        self.response.out.write(json.dumps({'authors': authors,
-                                            'titles': titles}))
+            kw += art.keywords + art.authors
+
+        keywords = [kw[i] for i in randint(0, len(kw), 20)]
+        keywords = list(set(keywords))
+        self.response.out.write(json.dumps({'keys': keywords,
+                                            'suggestions': titles}))
 
 
 class PopulateKeywordsHandler(webapp2.RequestHandler):
 
-    # Read in global keywords
-    keywords = LoadKeywordsFromFile('data/SEG_Keywords.txt')
-    keywords = LoadKeywordsFromFile('data/seg2015.json_keywords.txt',
-                                    kw=keywords)
+    def get(self):
+        # Read in global keywords
+        keywords = LoadKeywordsFromFile('data/SEG_Keywords.txt')
+        keywords = LoadKeywordsFromFile('data/seg2015.json_keywords.txt',
+                                        kw=keywords)
 
-    # Populate the keywords in the db
-    articles = Article.all().fetch(10)
-    for article in articles:
+        # Populate the keywords in the db
+        articles = Article.all().fetch(10)
+        for article in articles:
 
-        new_kw, prob = GenerateKeywords(article.abstract, article.title,
-                                        article.keywords)
+            if (article.title is None) or (article.abstract is None):
+                continue
+        
+            new_kw, prob = GenerateKeywords(article.abstract, article.title,
+                                            article.keywords, keywords)
 
-        print new_kw, prob
-        #article.keywords = new_kw
-        #article.kw_prob = prob
+            article.keywords = list(new_kw)
+            article.kw_prob = prob.tolist()
 
-        #print article.keywords
-        #article.put()
+            article.put()
 
-    
+        Keywords(data=keywords).put()
+        
+        self.response.out.write('worky worky')
+
+
+class ScoreSuggest(webapp2.RequestHandler):
+
+    def get(self):
+
+        pass
+
+
 class LoadDataHandler(webapp2.RequestHandler):
 
     def get(self):
@@ -169,10 +212,11 @@ class LoadDataHandler(webapp2.RequestHandler):
                     
         self.response.out.write(json.dumps(errors))
 
-app = webapp2.WSGIApplication([('/', MainHandler),
+app = webapp2.WSGIApplication([('/', IndexHandler),
+                               ('/breakfast_learn', MainHandler),
                                ('/loaddata', LoadDataHandler),
                                ('/data', DataHandler),
-                               ('/titles', SuggestionHandler),
+                               ('/suggest', SuggestionHandler),
                                ('/keywords', PopulateKeywordsHandler)],
                               debug=False)
 
@@ -183,3 +227,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

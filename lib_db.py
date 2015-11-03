@@ -1,6 +1,11 @@
 from google.appengine.ext import db
 
 
+class Keywords(db.Model):
+
+    data = db.StringListProperty()
+
+
 class Article(db.Model):
 
     title = db.StringProperty()
