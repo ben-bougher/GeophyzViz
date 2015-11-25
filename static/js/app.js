@@ -33,7 +33,8 @@ app.controller('controller', function($scope, $http) {
     $http.get('/data').then(function(response) {
 
       var data = response.data;
-      $scope.keywords = data.keys;
+      $scope.keywords = data.keywords;
+      $scope.authors = data.authors;
       $scope.suggestions = data.suggestions;
 
       $scope.initCloud();
@@ -128,7 +129,11 @@ app.controller('controller', function($scope, $http) {
     var drag = d3.behavior.drag().on('drag', dragmove)
           .on('dragend', dragend)
           .on('dragstart', function(){
-            $scope.dragging=true;});
+            $scope.dragging=true;
+            var articles = d3.select("#papers").selectAll('p')
+                  .style("font-size", function(){
+                    var fs = 12;
+                    return fs.toString() + 'px';});});
 
     text.call(drag);
   };

@@ -1,5 +1,5 @@
 from google.appengine.ext import db
-
+import numpy as np
 
 class Keywords(db.Model):
 
@@ -15,8 +15,10 @@ class Article(db.Model):
     institution = db.StringListProperty()
     volume = db.IntegerProperty()
     year = db.IntegerProperty()
+    citedby = db.StringListProperty()
     keywords = db.StringListProperty()
-    kw_prob = db.ListProperty
+    kw_prob = db.ListProperty(float)
+    kw_ind = db.ListProperty(int)
     issue = db.IntegerProperty()
     
     @property
@@ -32,3 +34,14 @@ class Article(db.Model):
                 "keywords": self.keywords,
                 "issue": self.issue}
     
+    @property
+    def kw_vector(self):
+
+        kw_vec = np.zeros(len(Keywords.all().get()))
+
+        kw_vec[self.kw_ind] = self.kw_prob
+
+        return kw_vec
+
+        
+        
